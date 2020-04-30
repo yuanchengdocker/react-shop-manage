@@ -17,12 +17,15 @@ function index(props) {
             props.history.push('/login')
         } else if (p.key === 'noti') {
             props.history.push('/admin/notices')
+        }else if (p.key === 'theme') {
+            props.changeTheme()
         } else {
             message.info(p.key)
         }
     }}>
         <Menu.Item key="noti">通知中心</Menu.Item>
         <Menu.Item key="setting">设置</Menu.Item>
+        <Menu.Item key="theme">切换主题</Menu.Item>
         <Menu.Item key="logout">退出</Menu.Item>
     </Menu>)
     return (

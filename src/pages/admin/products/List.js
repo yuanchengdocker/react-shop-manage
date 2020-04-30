@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState, useEffect, useLayoutEffect} from 'react'
 import {Card, Button, Table, Popconfirm} from 'antd'
 import {connect} from 'react-redux'
 import {delOne, modifyApi} from '../../../service/products'
@@ -10,6 +10,9 @@ function List(props) {
     let [loading, setLoading] = useState(false)
     useEffect(()=>{
         getProductsList()
+    }, [])
+
+    useLayoutEffect(() => { // 跟页面绘制相关，会同步页面样式更新，不会出现样式修改断层
     }, [])
 
     const getProductsList = async () => {

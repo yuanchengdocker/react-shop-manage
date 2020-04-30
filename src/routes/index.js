@@ -1,5 +1,6 @@
 import {lazy} from 'react';
 import { LaptopOutlined, ShopOutlined } from '@ant-design/icons';
+import dashbord from '../pages/admin/dashbord'
 
 export const mainRoutes = [{
     path: '/login',
@@ -12,7 +13,8 @@ export const mainRoutes = [{
 export const adminRoutes = [{
     id: `admin-1`,
     path: '/admin/dashbord',
-    component: lazy(() => import('../pages/admin/dashbord')),
+    // component: lazy(() => import('../pages/admin/dashbord')),
+    component: dashbord,
     isShow: true,
     title: '看板',
     icon: LaptopOutlined

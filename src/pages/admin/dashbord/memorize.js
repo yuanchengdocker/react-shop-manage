@@ -12,7 +12,7 @@ export default ()=> {
   const addCount = useCallback(() => { // 增加[]依赖来判断是否重新计算
     console.log('useCallback count', count) // useCallback 会缓存count的值
     setCount(x => x+1) // 此时会取真实的count，所以即使有useCallback 也一样会一直执行
-  }, []) // 每秒只执行一次
+  }, [count]) // 每秒只执行一次
   // Math.floor(new Date().getTime() / 1000) 一秒变化一次
 
   return <div>

@@ -9,6 +9,9 @@ import './index.css'
 import Minput from './minput'
 import Memoreize from './memorize'
 import Reducer from './reducer'
+import Reducer2 from './reduce2'
+import Reducer3 from './reduce3'
+import Hoc from './hoc'
 import HelloContext from './HelloContext'
 import GlobleContext from '../../../GlobleContext'
 
@@ -19,6 +22,7 @@ export default () => {
     const [display, setDisplay] = useState(false)
     // const boxRef = React.createRef()
     const boxRef = useRef() // 新的ref hooks的用法
+    const boxRef2 = useRef()
 
     // if(count > 1) {
     useEffect(() => {
@@ -48,20 +52,40 @@ export default () => {
 
     useLayoutEffect(() => {  // 同为加载完立即执行，但比useEffect要优先执行
         console.log('useLayoutEffect')
-        setTimeout(() => {
-            boxRef.current.style['top'] = '100px'
-        }, 100)
+        let prograss = 300
+        const render = () => {
+            prograss ++
+            boxRef.current.style['left'] = `${prograss/10}%`
+            console.log('requestAnimationFrame', (new Date()).getTime())
+            if(prograss <= 840) {
+                window.requestAnimationFrame(render)
+            }
+        }
+        window.requestAnimationFrame(render)
+        
+        let count = 300
+        let time = setInterval(()=>{
+            count ++
+            boxRef2.current.style['left'] = `${count/10}%`
+            console.log('setInterval', (new Date()).getTime())
+            if(count > 840) clearInterval(time)
+        }, 17)
     }, [])
 
     const getData = () => {
         console.log('getData')
     }
 
-    console.log('render') // 每一次set都会引起更新
-
     return (
         <Provider value="hello world">
+            <Hoc/>
             <div ref={boxRef} className="box">
+                {count}
+                {
+                    display ? <Foo/> : ''
+                }
+            </div>
+            <div ref={boxRef2} className="box" style={{top: '20%'}}>
                 {count}
                 {
                     display ? <Foo/> : ''
@@ -70,6 +94,10 @@ export default () => {
             <Minput/>
             <Memoreize/>
             <Reducer/>
+            this is Reducer2
+            <Reducer2/>
+            this is Reducer3
+            <Reducer3/>
         </Provider>
     )
 }
@@ -87,4 +115,19 @@ function Foo() {
     return <div>
         <Bar/>
     </div>
+}
+
+function deepCopy(obj) {
+    if(typeof obj != 'object' || obj === null || obj === undefined) return obj
+    let res = new obj.constructor()
+    for(let key in obj) {
+        if(obj.hasOwnProperty(key)) {
+            if(typeof obj[key] === 'object') {
+                res[key] = deepCopy(obj[key])
+            } else {
+                res[key] = obj[key]
+            }
+        }
+    }
+    return res
 }

@@ -1,5 +1,5 @@
 import React from 'react'
-import {withRouter} from 'react-router-dom'
+import {withRouter} from 'react-router-dom' // 没在switch切换路由的，通过高阶函数注入history，location等属性到props
 import { Layout, Menu, Dropdown, Avatar, message, Badge } from 'antd';
 import { DownOutlined } from '@ant-design/icons';
 import {clearToken} from '../../utils/auth'

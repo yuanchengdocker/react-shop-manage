@@ -7,7 +7,7 @@ import GlobleContext from './GlobleContext'
 
 const { Provider } = GlobleContext
 
-function App() {
+function App(props) {
   // 分多次提交 一
   const [theme, setTheme] = useState('black')
   

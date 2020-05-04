@@ -56,7 +56,6 @@ export default () => {
         const render = () => {
             prograss ++
             boxRef.current.style['left'] = `${prograss/10}%`
-            console.log('requestAnimationFrame', (new Date()).getTime())
             if(prograss <= 840) {
                 window.requestAnimationFrame(render)
             }
@@ -67,7 +66,6 @@ export default () => {
         let time = setInterval(()=>{
             count ++
             boxRef2.current.style['left'] = `${count/10}%`
-            console.log('setInterval', (new Date()).getTime())
             if(count > 840) clearInterval(time)
         }, 17)
     }, [])

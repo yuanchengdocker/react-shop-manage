@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState, ConcurrentMode} from 'react'
 import { Form, Input, Button, Checkbox, Card, message } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import {setToken} from '../utils/auth'

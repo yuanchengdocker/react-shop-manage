@@ -19,20 +19,39 @@ const reducer = (state, action) => {
 // const useStateCommonReducer = (state, action) => action 
 
 const CounterContext = React.createContext(null)
-
+function isPromise(obj) {
+  return (
+    !!obj &&
+    (typeof obj === "object" || typeof obj === "function") &&
+    typeof obj.then === "function"
+  );
+}
+function wrapperDispatch(dispatch) {
+  return function(action) {
+    if (isPromise(action.data)) {
+      console.log('开始异步');
+      action.data.then(v => {
+        dispatch({ type: action.type, data: v });
+        console.log('异步结束');
+      });
+    } else {
+      dispatch(action);
+    }
+  };
+}
 const ContextProvider = ({children}) => {
   const { Provider } = CounterContext
-  const contextReducer = useReducer(reducer, initialState)
+  const [state, dispatch] = useReducer(reducer, initialState)
   return (
-    <Provider value={contextReducer}>
+    <Provider value={{state, dispatch: wrapperDispatch(dispatch)}}>
       {children}
     </Provider>
   )
 }
 
 const useCountHook = () => {
-  const counterContext = useContext(CounterContext)
-  return counterContext
+  const {state, dispatch} = useContext(CounterContext)
+  return [state, dispatch]
 }
 
 const Counters = () => {
@@ -42,11 +61,19 @@ const Counters = () => {
   const [state, dispatch] = useCountHook()
   const [inputVal, setInputVal] = useState('')
 
+  const test = () => {
+    return new Promise((res, rej) => {
+      setTimeout(()=>{
+        res(1000)
+      }, 2000)
+    })
+  }
+
   return (
     <div>
       this is reducer test
       {state}
-      <Button onClick={()=>dispatch({type: 'add'})}>加一</Button>
+      <Button onClick={()=>dispatch({type: 'add', data: test()})}>加一</Button>
       <Button onClick={()=>dispatch({type: 'delete'})}>减一</Button>
       <Input value={inputVal} onChange={(e)=>{setInputVal(e.target.value)}}/>
       <Button onClick={
